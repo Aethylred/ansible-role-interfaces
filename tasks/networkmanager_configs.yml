@@ -6,5 +6,6 @@
     group: root
     permissions: '0640'
     content: "{{ item.value | community.general.to_ini }}"
+  notify: Reload NetworkManager
   loop: "{{ lookup('dict', interfaces_networkmanager_configs) }}"
   tags: configurations
