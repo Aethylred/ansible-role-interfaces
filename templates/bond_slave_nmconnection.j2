@@ -9,6 +9,20 @@ type={{ type_map[item.0.type] | default(item.0.type) }}
 type={{ (item.1 is match(dummy_interface_regex)) | ternary('dummy', 'ethernet') }}
 {% endif %}
 interface-name={{ item.1 }}
+controller={{ item.0.device }}
+port-type=bond
 
-master={{ item.0.device }}
-slave-type=bond
+{% if item.type | default('ethernet')  == 'ipoib' %}
+[infiniband]
+transport-mode=datagram
+{% if item.mtu is defined %}
+mtu={{ item.mtu }}
+{% endif %}
+{% else %}
+{% if item.mtu is defined %}
+[ethernet]
+mtu={{ item.mtu }}
+{% endif %}
+{% endif %}
+
+[bond-port]
