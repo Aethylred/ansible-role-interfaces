@@ -11,12 +11,12 @@ port-type=bridge
 [infiniband]
 transport-mode=datagram
 {% if item.mtu is defined %}
-mtu={{ item.mtu }}
+mtu={{ item.0.mtu }}
 {% endif %}
 {% else %}
 {% if item.0.mtu is defined %}
 [ethernet]
-mtu={{ item.mtu }}
+mtu={{ item.0.mtu }}
 {% endif %}
 {% endif %}
 
