@@ -18,11 +18,17 @@ slave-type=bridge
 {%   endif %}
 {% endfor %}
 
-
-{# note that a bond interface is virtually ethernet even if the ports are infiniband #}
+{% if item.type | default('ethernet')  == 'ipoib' %}
+[infiniband]
+transport-mode=datagram
+{% if item.mtu is defined %}
+mtu={{ item.mtu }}
+{% endif %}
+{% else %}
 {% if item.mtu is defined %}
 [ethernet]
 mtu={{ item.mtu }}
+{% endif %}
 {% endif %}
 
 [bond]
